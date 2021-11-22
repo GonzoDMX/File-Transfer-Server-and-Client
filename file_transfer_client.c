@@ -13,6 +13,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <libgen.h>
 
 #define BUFFER_SIZE 1024
 #define MAX_PACKET_SIZE 512
@@ -173,9 +174,11 @@ unsigned long get_header(int sock)
 }
 
 // Write file received from server to disk
-void save_to_disk(unsigned char *data, unsigned long data_size, char *f_name)
+void save_to_disk(unsigned char *data, unsigned long data_size, char *f_path)
 {
 	FILE *fp;
+	char *f_name;
+	f_name = basename(f_path);
 	// Check if file already exists
 	if (access(f_name, F_OK) == 0)
 	{	
